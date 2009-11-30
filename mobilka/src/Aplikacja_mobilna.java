@@ -179,7 +179,7 @@ connectForm.addCommand(backCommand);
 connectForm.setCommandListener(this);
 
 // The display form
-displayForm = new Form("Server Reply");
+displayForm = new Form("Ostatni status");
 messageLabel = new StringItem(null, null);
 displayForm.append(messageLabel);
 displayForm.addCommand(backCommand);
