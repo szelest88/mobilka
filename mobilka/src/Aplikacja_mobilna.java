@@ -2,7 +2,12 @@ import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;  
 import javax.microedition.io.*;  
 import java.io.*;  
-   
+
+/**
+ * Aplikacja_mobilna
+ * @author Artur Majewski & Witold Olejniczak
+ * @version 0.5
+ */
 public class Aplikacja_mobilna extends MIDlet
 implements CommandListener, Runnable {
 
@@ -25,6 +30,10 @@ private Command backCommand;
 private Command wyslijCommand;
 
 
+
+/* (non-Javadoc)
+ * @see javax.microedition.midlet.MIDlet#startApp()
+ */
 protected void startApp() throws MIDletStateChangeException {
 if (display == null) {
 initialize();
@@ -32,13 +41,22 @@ display.setCurrent(loggerForm);
 }
 }
 
+/* (non-Javadoc)
+ * @see javax.microedition.midlet.MIDlet#pauseApp()
+ */
 protected void pauseApp() {
 }
 
+/* (non-Javadoc)
+ * @see javax.microedition.midlet.MIDlet#destroyApp(boolean)
+ */
 protected void destroyApp(boolean unconditional)
     throws MIDletStateChangeException {
 }
 
+/* (non-Javadoc)
+ * @see javax.microedition.lcdui.CommandListener#commandAction(javax.microedition.lcdui.Command, javax.microedition.lcdui.Displayable)
+ */
 public void commandAction(Command cmd, Displayable d) {
 if (cmd == okCommand) {
 Thread t = new Thread(this);
@@ -60,6 +78,10 @@ else if(cmd==acceptLog){
 }
 }
 
+
+/* (non-Javadoc)
+ * @see java.lang.Runnable#run()
+ */
 public void run() {
 /* tu by³o badziewie 
 od
@@ -72,8 +94,14 @@ do
 */
 	Polaczenie moje= new Polaczenie();
 	moje.polacz(serverURL.getString(),display, addressForm, displayForm, messageLabel);
+	//moje.slij(serverURL.getString(), "huhu", wyslijForm);
 }
 
+/**
+ * Komentrarz metody initilize
+ * 
+ * @param 
+ */
 private void initialize() {
 display = Display.getDisplay(this);
 
@@ -87,8 +115,8 @@ loginField = new TextField("Login:", "", 20, TextField.ANY);
 passField = new TextField("Haslo:", "", 20, TextField.PASSWORD);
 
 // The address form
-addressForm = new Form("HTTP Client");
-serverURL = new TextField("URL odbioru:", "", 256, TextField.ANY);
+addressForm = new Form("Blop");
+serverURL = new TextField("debug - URL odbioru:", "", 256, TextField.ANY);
 addressForm.append(serverURL);
 addressForm.addCommand(okCommand);
 addressForm.addCommand(exitCommand);
