@@ -123,7 +123,8 @@ do
 	moje= new Polaczenie();
 	//moje.polacz(serverURL.getString(),display, addressForm, displayForm, messageLabel); //to nawet dzia³a! Dziwne!
 	
-		moje.polacz("http://stud.ics.p.lodz.pl/~szelest/index.php",display, addressForm, displayForm, messageLabel); //to nawet dzia³a! Dziwne!
+		moje.polacz("http://starzaki.eu.org/~gkmio2009/API/API.php/status/1",display, addressForm, displayForm, messageLabel); //to nawet dzia³a! Dziwne!
+	
 	}else
 	{
 moje= new Polaczenie();

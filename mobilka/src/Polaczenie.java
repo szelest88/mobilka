@@ -77,19 +77,20 @@ public class Polaczenie
 
 					if(enter)
 					{
-						result+="\n";
+						if(reply.charAt(i)!='\n')result+="\n";
 						enter=false;
 					}
 
 					if (reply.charAt(i)=='<' ){blokowanie=true;continue;}
-					if(reply.charAt(i)=='>'){blokowanie=false;continue;}
-					if(reply.charAt(i)=='/'){enter=true;continue;}
+					if(reply.charAt(i)=='>'){blokowanie=false;enter=true;continue;}
+					if(reply.charAt(i)=='/'){continue;}
 					if(!blokowanie)
 						result+=reply.charAt(i);
 
 				}
 				reply=result;
-				messageLabel.setText("Wynik:\n"+reply); //commented when added
+				messageLabel.setText("Wynik:\n");
+				messageLabel.setText(messageLabel.getText()+reply); //commented when added
 
 			} else 
 			{
