@@ -1,3 +1,10 @@
+/*
+ * RANY!
+ * Chcia³o Ci siê otwieraæ ten plik?
+ * 				Wyrazy najserdeczniejszego zdziwienia,
+ * 				Artur M.
+ */
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -156,15 +163,15 @@ public class Polaczenie
 	        OutputStream os = null;
 	        StringBuffer b = new StringBuffer();
 	        try {
-	          c = (HttpConnection)Connector.open(url);
+	          c = (HttpConnection)Connector.open(url,Connector.READ_WRITE);
 	          c.setRequestMethod(HttpConnection.POST);
-	          c.setRequestProperty("IF-Modified-Since", "20 Jan 2001 16:19:14 GMT");
-	          c.setRequestProperty("User-Agent","Profile/MIDP-1.0 Configuration/CLDC-1.0");
+	          c.setRequestProperty("IF-Modified-Since", "20 Jan 2001 16:19:14 GMT"); //to chyba trzeba po prostu poustawiaæ
+ 	          c.setRequestProperty("User-Agent","Profile/MIDP-1.0 Configuration/CLDC-1.0");
 	          c.setRequestProperty("Content-Language", "en-CA");
 	          os = c.openOutputStream();
 
 	          //start
-	          String str = "nadawca=Shellest&odbiorcy=Getter&tresc=jakas_tresc&typ=prywatny";
+	          String str = "nadawca=Shellest&odbiorcy=Getter&tresc=jakas_tresc&typ=prywatny"; //w sumie zasadniczy post
 	          byte postmsg[] = str.getBytes();
 	          for(int i=0;i<postmsg.length;i++) {
 	            os.write(postmsg[i]);

@@ -1,3 +1,10 @@
+/*
+ * RANY!
+ * Chcia³o Ci siê otwieraæ ten plik?
+ * 				Wyrazy najserdeczniejszego zdziwienia,
+ * 				Artur M.
+ */
+
 import javax.microedition.midlet.*;  
 import javax.microedition.lcdui.*;  
 import javax.microedition.io.*;  
@@ -89,16 +96,28 @@ else if(cmd==zatwierdzWyslij){
 if(!wysylanie)wysylanie=true;
 //???
 {
-
+	/*
 	moje= new Polaczenie();
 	try{
-	moje.slij("http://mojserwer/plik.php", display, "dummy", wyslijForm, "dummy");
+	moje.slij("http://starzaki.eu.org/~gkmio2009/API/API.php/status/", display, "dummy", wyslijForm, "dummy");
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}	
 	System.out.println("Wysylanie ok");
-	
+	*/
+	//experiment
+	new Thread(new Runnable()
+	{
+	public void run()
+	{
+	try{
+		moje=new Polaczenie();
+		moje.slij("http://starzaki.eu.org/~gkmio2009/API/API.php/status/", display, "dummy", wyslijForm, "dummy");
+	} catch(IOException e) {}
+	}
+	}).start();
+	//eoexperiment
 	wysylanie=false;
 			}
 //???
@@ -127,19 +146,7 @@ do
 	
 	}else
 	{
-moje= new Polaczenie();
-			try {
-				if(wysylanie)
-				{
-		moje.slij("http://mojserwer/plik.php", display, "dummy", wyslijForm, "dummy");
-		System.out.println("Wysylanie ok");
-		
-		wysylanie=false;
-				}
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}	
+
 	}
 		
 }
