@@ -29,6 +29,10 @@ private Command exitCommand;
 private Command backCommand;
 private Command wyslijCommand;
 
+private TextField coWyslac;
+private Command zatwierdzWyslij;
+Polaczenie moje;
+boolean wysylanie=false;
 
 
 /* (non-Javadoc)
@@ -37,7 +41,9 @@ private Command wyslijCommand;
 protected void startApp() throws MIDletStateChangeException {
 if (display == null) {
 initialize();
-display.setCurrent(loggerForm);
+//display.setCurrent(loggerForm);
+display.setCurrent(addressForm);
+
 }
 }
 
@@ -58,8 +64,10 @@ protected void destroyApp(boolean unconditional)
  * @see javax.microedition.lcdui.CommandListener#commandAction(javax.microedition.lcdui.Command, javax.microedition.lcdui.Displayable)
  */
 public void commandAction(Command cmd, Displayable d) {
+Thread t;
+Thread t2;
 if (cmd == okCommand) {
-Thread t = new Thread(this);
+t = new Thread(this);
 t.start();
 display.setCurrent(connectForm);
 } else if (cmd == backCommand) {
@@ -71,10 +79,29 @@ destroyApp(true);
 }
 notifyDestroyed();
 }else if(cmd == wyslijCommand){
+
 	display.setCurrent(wyslijForm);
 }
 else if(cmd==acceptLog){
 	display.setCurrent(addressForm);
+}
+else if(cmd==zatwierdzWyslij){
+if(!wysylanie)wysylanie=true;
+//???
+{
+
+	moje= new Polaczenie();
+	try{
+	moje.slij("http://mojserwer/plik.php", display, "dummy", wyslijForm, "dummy");
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}	
+	System.out.println("Wysylanie ok");
+	
+	wysylanie=false;
+			}
+//???
 }
 }
 
@@ -83,7 +110,7 @@ else if(cmd==acceptLog){
  * @see java.lang.Runnable#run()
  */
 public void run() {
-/* tu by³o badziewie 
+/* tu by³o
 od
 	InputStream is = null;
 do
@@ -92,13 +119,32 @@ do
 }
 }
 */
-	Polaczenie moje= new Polaczenie();
-	moje.polacz(serverURL.getString(),display, addressForm, displayForm, messageLabel);
-	//moje.slij(serverURL.getString(), "huhu", wyslijForm);
+	if(!wysylanie){
+	moje= new Polaczenie();
+	//moje.polacz(serverURL.getString(),display, addressForm, displayForm, messageLabel); //to nawet dzia³a! Dziwne!
+	
+		moje.polacz("http://stud.ics.p.lodz.pl/~szelest/index.php",display, addressForm, displayForm, messageLabel); //to nawet dzia³a! Dziwne!
+	}else
+	{
+moje= new Polaczenie();
+			try {
+				if(wysylanie)
+				{
+		moje.slij("http://mojserwer/plik.php", display, "dummy", wyslijForm, "dummy");
+		System.out.println("Wysylanie ok");
+		
+		wysylanie=false;
+				}
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}	
+	}
+		
 }
 
 /**
- * Komentrarz metody initilize
+ * Komentarz metody initilize
  * 
  * @param 
  */
@@ -107,17 +153,18 @@ display = Display.getDisplay(this);
 
 // Commands
 exitCommand = new Command("Exit", Command.EXIT, 0);
-okCommand = new Command("OK", Command.OK, 0);
+okCommand = new Command("Pobierz", Command.OK, 0);
 backCommand = new Command("Back", Command.BACK, 0);
 wyslijCommand=new Command("Wyslij",Command.OK,1);
 acceptLog = new Command("Zatwierdz",Command.OK,2);
 loginField = new TextField("Login:", "", 20, TextField.ANY);
 passField = new TextField("Haslo:", "", 20, TextField.PASSWORD);
-
+coWyslac=new TextField("Zawartosc statusu","",20,TextField.ANY);
+zatwierdzWyslij = new Command ("Wysylaj",Command.OK,3);
 // The address form
 addressForm = new Form("Blop");
 serverURL = new TextField("debug - URL odbioru:", "", 256, TextField.ANY);
-addressForm.append(serverURL);
+//addressForm.append(serverURL);
 addressForm.addCommand(okCommand);
 addressForm.addCommand(exitCommand);
 addressForm.addCommand(wyslijCommand);
@@ -141,7 +188,9 @@ displayForm.setCommandListener(this);
 //wysylacz form
 wyslijForm = new Form("Wysylacz");
 //odbierzForm.append(odbierzLabel);
+wyslijForm.append(coWyslac);
 wyslijForm.addCommand(backCommand);
+wyslijForm.addCommand(zatwierdzWyslij);
 //odbierzForm.addCommand(odbierzCommand);
 wyslijForm.setCommandListener(this);
 

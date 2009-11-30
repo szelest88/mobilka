@@ -11,6 +11,7 @@ import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.StringItem;
+import javax.microedition.lcdui.TextBox;
 
 
 //hm, co bêdzie robi³ obiekt tej klasy?
@@ -146,70 +147,50 @@ public class Polaczenie
 	}
 	
 	//jakas tam g³upota
-	String slij(String url, String co, Form wyslijForm, String requeststring)
+	void slij(String url, Display display, String co, Form wyslijForm, String requeststring)throws IOException 
 	{
 
-			HttpConnection hc = null; 
-			DataInputStream dis = null; 
-			DataOutputStream dos = null; 
-			StringBuffer messagebuffer = new StringBuffer(); 
-			try 
-			{ //open up a http connection with the Web server for both send and receive operations 
-			    hc = (HttpConnection) Connector.open(url, Connector.READ_WRITE); // Set the request method to POST 				
-		    	    hc.setRequestMethod(HttpConnection.POST); 
-		  	    //send the string entered by user byte by byte 
-			    dos = hc.openDataOutputStream(); 
-			    byte[] request_body = requeststring.getBytes(); 
-			    for (int i = 0; i < request_body.length; i++) 
-		  	    { 
-		  	        dos.writeByte(request_body[i]); 
-			    } 
-		            dos.flush(); 
-			    dos.close(); 
-			    //retrieve the response back from the server
-		            dis = new DataInputStream(hc.openInputStream()); 
-			    int ch; 
-			    //check the content length first 
-			    long len = hc.getLength(); 
-			    if(len!=-1) 
-			    { 
-			         for(int i = 0;i<len;i++) 
-		    		     if((ch = dis.read())!= -1) 
-		 	                 messagebuffer.append((char)ch); 
-			    } 
-			    else 
-			     { // if the content length is not available 
-			          while ((ch = dis.read()) != -1) 
-		                      messagebuffer.append((char) ch); 
-			    } 
-			    dis.close(); 
-				
-			} 
-			
-			catch (IOException ioe) 
-			{ 
-				messagebuffer = new StringBuffer("error"); 
-			} 
-			finally 
-			{ // Free up i/o streams and http connection 
-				try 
-				{ 
-				    if (hc != null) 
-					hc.close(); 
-				}catch (IOException ignored) {} 
-				try 
-				{ 
-		    		    if (dis != null) 
-					dis.close(); 
-		      	        }catch (IOException ignored) {} 
-				try 
-				{ 
-		  		    if (dos != null) 
-					dos.close(); 
-			        } 
-				catch (IOException ignored) {} 
-			} 
-			return messagebuffer.toString(); 
+	        HttpConnection c = null;
+	        InputStream is = null;
+	        OutputStream os = null;
+	        StringBuffer b = new StringBuffer();
+	        try {
+	          c = (HttpConnection)Connector.open(url);
+	          c.setRequestMethod(HttpConnection.POST);
+	          c.setRequestProperty("IF-Modified-Since", "20 Jan 2001 16:19:14 GMT");
+	          c.setRequestProperty("User-Agent","Profile/MIDP-1.0 Configuration/CLDC-1.0");
+	          c.setRequestProperty("Content-Language", "en-CA");
+	          os = c.openOutputStream();
+
+	          //start
+	          String str = "nadawca=Shellest&odbiorcy=Getter&tresc=jakas_tresc&typ=prywatny";
+	          byte postmsg[] = str.getBytes();
+	          for(int i=0;i<postmsg.length;i++) {
+	            os.write(postmsg[i]);
+	          }
+	          os.flush();
+	          //end
+
+	          is = c.openDataInputStream();
+	          int ch;
+	          while ((ch = is.read()) != -1) {
+	            b.append((char) ch);
+	            System.out.println((char)ch);
+	          }
+	        }catch(IOException e){
+	        	//tragedia
+	        } finally {
+	           if(is!= null) {
+	              is.close();
+	           }
+	           if(os != null) {
+	              os.close();
+	           }
+	           if(c != null) {
+	              c.close();
+	           }
+	        }
+	        
 	}	
 	
 	}
