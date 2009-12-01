@@ -23,8 +23,7 @@ import javax.microedition.lcdui.TextBox;
 
 //hm, co bêdzie robi³ obiekt tej klasy?
 /*
-Ogólnie idzie o przerzucenie czêœci funkcjonalnoœci z Aplikacja_mobilna.java tutaj, tylko pytanie, jak zgrabnie uda siê to po³¹czyæ.
-Ok, teraz dzia³a, ale trochê wyszed³ syf w kodzie.
+Obiekt tej klasy ma metody do pobierania i wysy³ania danych, nie jest to tak jak na UMLu, ale chwilowo tak by³o wygodniej
  */
 
 public class Polaczenie 
@@ -56,7 +55,7 @@ public class Polaczenie
 
 		try 
 		{
-			// Fetch the required page, reading up to a maximum of 128 bytes
+			// Fetch the required page, reading up to a maximum of 1024 bytes
 			if (conn.getResponseCode() == HttpConnection.HTTP_OK) 
 			{
 				is = conn.openInputStream();
@@ -79,7 +78,10 @@ public class Polaczenie
 				String result=new String();
 				boolean blokowanie=false;
 				boolean enter=false;
-				for(int i = 0 ; i<reply.length();i++) //zabawa z formatowaniem, przyda³by siê parser...
+				for(int i = 0 ; i<reply.length();i++) 	//zabawa z formatowaniem, przyda³by siê parser / jakaœ
+														// funkcja deserializuj¹ca (J2ME [*] )
+														//pytanie: czy jest sens deserializacji tego szajsu?
+														//i tak idzie tylko o to, ¿eby wyœwietliæ dane na ekranik.
 				{
 
 					if(enter)

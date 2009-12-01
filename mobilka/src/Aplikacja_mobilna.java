@@ -35,6 +35,7 @@ private Command okCommand;
 private Command exitCommand;
 private Command backCommand;
 private Command wyslijCommand;
+private StringItem informacja;
 
 private TextField coWyslac;
 private Command zatwierdzWyslij;
@@ -48,7 +49,7 @@ boolean wysylanie=false;
 protected void startApp() throws MIDletStateChangeException {
 if (display == null) {
 initialize();
-//display.setCurrent(loggerForm);
+//display.setCurrent(loggerForm); //bez sensu
 display.setCurrent(addressForm);
 
 }
@@ -117,10 +118,10 @@ if(!wysylanie)wysylanie=true;
 	} catch(IOException e) {}
 	}
 	}).start();
-	//eoexperiment
+	//eexperiment
 	wysylanie=false;
 			}
-//???
+//??? //dlaczego doda³em te znaki zapytania?
 }
 }
 
@@ -137,7 +138,8 @@ do
 } catch (IOException ex1) {
 }
 }
-*/
+
+ ale ju¿ nie ma i nie bêdzie */ 
 	if(!wysylanie){
 	moje= new Polaczenie();
 	//moje.polacz(serverURL.getString(),display, addressForm, displayForm, messageLabel); //to nawet dzia³a! Dziwne!
@@ -169,9 +171,13 @@ loginField = new TextField("Login:", "", 20, TextField.ANY);
 passField = new TextField("Haslo:", "", 20, TextField.PASSWORD);
 coWyslac=new TextField("Zawartosc statusu","",20,TextField.ANY);
 zatwierdzWyslij = new Command ("Wysylaj",Command.OK,3);
+informacja = new StringItem("Wybierz z menu opcjê", "");
+
 // The address form
 addressForm = new Form("Blop");
 serverURL = new TextField("debug - URL odbioru:", "", 256, TextField.ANY);
+addressForm.append(informacja);
+
 //addressForm.append(serverURL);
 addressForm.addCommand(okCommand);
 addressForm.addCommand(exitCommand);
