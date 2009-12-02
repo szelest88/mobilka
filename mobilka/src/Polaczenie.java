@@ -5,6 +5,7 @@
  * 				Artur M.
  */
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -86,7 +87,7 @@ public class Polaczenie
 
 					if(enter)
 					{
-						if(reply.charAt(i)!='\n')result+="\n";
+						if(reply.charAt(i)!='\n')result+="\n"; //dupa, poprawiæ to - dodaæ jakies info, co jest w ogóle wyœwietlane i usun¹æ nadmiar "\n"-ów.
 						enter=false;
 					}
 
@@ -157,44 +158,49 @@ public class Polaczenie
 	}
 	
 	//jakas tam g³upota
-	void slij(String url, Display display, String co, Form wyslijForm, String requeststring)throws IOException 
+	void slij(String url, String co)throws IOException 
+	//gdzieœ tu jest b³¹d, bo ³¹czyæ siê ³¹czy, ale nie wysy³a danych. Jeszcze nie wiem, gdzie...
 	{
 
 	        HttpConnection c = null;
 	        InputStream is = null;
-	        OutputStream os = null;
+	        OutputStream dos = null;//output
 	        StringBuffer b = new StringBuffer();
 	        try {
-	          c = (HttpConnection)Connector.open(url,Connector.READ_WRITE);
+	          c = (HttpConnection)Connector.open(url,Connector.READ_WRITE);//?
 	          c.setRequestMethod(HttpConnection.POST);
+	          c.setRequestProperty("Content-Type", "text/plain");
 	          c.setRequestProperty("IF-Modified-Since", "20 Jan 2001 16:19:14 GMT"); //to chyba trzeba po prostu poustawiaæ
  	          c.setRequestProperty("User-Agent","Profile/MIDP-1.0 Configuration/CLDC-1.0");
 	          c.setRequestProperty("Content-Language", "en-CA");
-	          os = c.openOutputStream();
+	          dos = c.openOutputStream();
 
 	          //start
-	          String str = "nadawca=Shellest&odbiorcy=Getter&tresc=jakas_tresc&typ=prywatny"; //w sumie zasadniczy post
+	          String str = "nadawca=71&odbiorcy=1,2,3&typ=publiczny&timestamp=0&kanal=ppp&tresc=dupa"; //w sumie zasadniczy post
+	          //bez tego dzia³a, tzn. z pustym stringiem
 	          byte postmsg[] = str.getBytes();
-	          for(int i=0;i<postmsg.length;i++) {
-	            os.write(postmsg[i]);
-	          }
-	          os.flush();
+	          //for(int i=0;i<postmsg.length;i++) {
+	            dos.write(str.getBytes()); //write
+	          //}
+	          
+	          dos.flush();
 	          //end
 
-	          is = c.openDataInputStream();
+	          is = c.openDataInputStream(); //resp
 	          int ch;
 	          while ((ch = is.read()) != -1) {
 	            b.append((char) ch);
 	            System.out.println((char)ch);
 	          }
 	        }catch(IOException e){
-	        	//tragedia
+	        	System.out.println("Coœ siê pierdoli, kurwa maæ!");
+	        	System.out.println(e.toString());
 	        } finally {
 	           if(is!= null) {
 	              is.close();
 	           }
-	           if(os != null) {
-	              os.close();
+	           if(dos != null) {
+	              dos.close();
 	           }
 	           if(c != null) {
 	              c.close();

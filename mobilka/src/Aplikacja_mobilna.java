@@ -108,18 +108,25 @@ if(!wysylanie)wysylanie=true;
 	System.out.println("Wysylanie ok");
 	*/
 	//experiment
+	
 	new Thread(new Runnable()
 	{
 	public void run()
 	{
 	try{
 		moje=new Polaczenie();
-		moje.slij("http://starzaki.eu.org/~gkmio2009/API/API.php/status/", display, "dummy", wyslijForm, "dummy");
-	} catch(IOException e) {}
+		moje.slij("http://starzaki.eu.org/~gkmio2009/API/API.php/status",  "dummy"); //powinno dzia³aæ, a nie dzia³a :|
+		//moje.slij("http://starzaki.eu.org/~gkmio2009/API/API.php/status?typ=XML&nadawca=1&odbiorcy=1,2,3&typ=publiczny&timestamp=0&kanal=ppp&tresc=ziu","dummy");
+	} catch(IOException e) {
+		System.out.println("Cosik sie syp³o");
+		
+	}
 	}
 	}).start();
 	//eexperiment
 	wysylanie=false;
+	System.out.println("Wysylanie ok");
+	
 			}
 //??? //dlaczego doda³em te znaki zapytania?
 }
@@ -142,7 +149,6 @@ do
  ale ju¿ nie ma i nie bêdzie */ 
 	if(!wysylanie){
 	moje= new Polaczenie();
-	//moje.polacz(serverURL.getString(),display, addressForm, displayForm, messageLabel); //to nawet dzia³a! Dziwne!
 	
 		moje.polacz("http://starzaki.eu.org/~gkmio2009/API/API.php/status/all?typ=XML&limit=10",display, addressForm, displayForm, messageLabel); //to nawet dzia³a! Dziwne!
 	
@@ -169,7 +175,7 @@ wyslijCommand=new Command("Wyslij",Command.OK,1);
 acceptLog = new Command("Zatwierdz",Command.OK,2);
 loginField = new TextField("Login:", "", 20, TextField.ANY);
 passField = new TextField("Haslo:", "", 20, TextField.PASSWORD);
-coWyslac=new TextField("Zawartosc statusu","",20,TextField.ANY);
+coWyslac=new TextField("Zawartosc statusu","",40,TextField.ANY);
 zatwierdzWyslij = new Command ("Wysylaj",Command.OK,3);
 informacja = new StringItem("Wybierz z menu opcjê", "");
 
