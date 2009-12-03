@@ -22,7 +22,7 @@ import javax.microedition.lcdui.StringItem;
 import javax.microedition.lcdui.TextBox;
 
 
-//hm, co bêdzie robi³ obiekt tej klasy?
+
 /*
 Obiekt tej klasy ma metody do pobierania i wysy³ania danych, nie jest to tak jak na UMLu, ale chwilowo tak by³o wygodniej
  */
@@ -176,7 +176,7 @@ public class Polaczenie
 	          dos = c.openOutputStream();
 
 	          //start
-	          String str = "nadawca=71&odbiorcy=1,2,3&typ=publiczny&timestamp=0&kanal=ppp&tresc=dupa"; //w sumie zasadniczy post
+	          String str = "nadawca=71&odbiorcy=1,2,3&typ=publiczny&timestamp=0&kanal=ppp&tresc=dupa\n"; //w sumie zasadniczy post
 	          //bez tego dzia³a, tzn. z pustym stringiem
 	          byte postmsg[] = str.getBytes();
 	          //for(int i=0;i<postmsg.length;i++) {
@@ -190,10 +190,11 @@ public class Polaczenie
 	          int ch;
 	          while ((ch = is.read()) != -1) {
 	            b.append((char) ch);
+	            if((char)ch!='\n')
 	            System.out.println((char)ch);
 	          }
 	        }catch(IOException e){
-	        	System.out.println("Coœ siê pierdoli, kurwa maæ!");
+	        	System.out.println("Coœ nie tak, a konkretnie to:");
 	        	System.out.println(e.toString());
 	        } finally {
 	           if(is!= null) {
