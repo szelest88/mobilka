@@ -1,0 +1,1 @@
+Mobilny klient systemu mikroblogowego blop.pl, chwilowo w dość wczesnej fazie istnienia.
